@@ -2,7 +2,7 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/info", (req, res) => {
+router.get("/", (req, res) => {
     return res.json({message:"coming from v2 api"})
 })
 
