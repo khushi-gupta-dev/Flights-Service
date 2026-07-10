@@ -17,7 +17,11 @@ router.get(
 
     //    /api/v1/airplanes/:id      GET
    
+router.get(
+    "/:id",
 
+    airplaneController.getAirplane
+)
 
 
 
