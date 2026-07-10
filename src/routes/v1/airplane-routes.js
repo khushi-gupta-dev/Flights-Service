@@ -30,5 +30,11 @@ router.delete(
 )   
 
 
+router.put(
+    "/:id",
+
+    airplaneController.updateAirplane
+)
+
 
 module.exports = router;
