@@ -28,6 +28,23 @@ async function createAirplane(req, res) {
 }
 }
 
+
+async function getAirplanes(req, res) {
+  try {
+    const airplanes  =  await airplaneService.getAirplanes();
+    successResponse.data = airplanes
+   return res
+      .status(StatusCodes.OK)
+    .json(successResponse);
+
+  } catch (error) {
+    errorResponse.error = error;
+  return  res
+    .status(error.statusCode)
+    .json(errorResponse);
+}
+}
 module.exports = {
   createAirplane,
+  getAirplanes
 };
