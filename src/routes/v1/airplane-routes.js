@@ -30,7 +30,7 @@ router.delete(
 )   
 
 
-router.put(
+router.patch(
     "/:id",
 
     airplaneController.updateAirplane

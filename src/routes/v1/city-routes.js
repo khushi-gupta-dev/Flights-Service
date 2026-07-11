@@ -26,9 +26,14 @@ router.post(
 // )
 
 
-// router.delete(
-//     "/:id",
-//     cityController.destroyCity
-// )
+ router.delete(
+    "/:id",
+     cityController.destroyCity
+)
+ 
+router.patch(
+    "/:id",
+    cityController.updateCity
+)
 
 module.exports = router;
