@@ -12,15 +12,15 @@ table: 'Cities',
   field: 'id'
 },
 onDelete: 'CASCADE',
-onUpdate: 'CASCADE'
+
 }); 
 
   },      
 
       async down(queryInterface, Sequelize) {
-    await sequelize.queryInterface.removeConstraint(
+    await queryInterface.removeConstraint(
       "Airports",
-      "city_fk_constraint"                  // name of constrain we give
+      "city_fk_constraint"                  // name of constraint we give
       
      );
    
