@@ -11,19 +11,6 @@ router.post(
      cityController.createCity);
 
 
-//    /api/v1/airplanes      GET
-// router.get(
-//     "/" ,
-//     cityController.getCities);
-
-
-    //    /api/v1/airplanes/:id      GET
-   
-// router.get(
-//     "/:id",
-
-//     cityController.getCity
-// )
 
 
  router.delete(
