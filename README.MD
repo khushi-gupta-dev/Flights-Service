@@ -11,7 +11,8 @@ npm install
 PORT = <port number of your choice>
 ```
 ex:
-```PORT=3000
+```
+PORT=3000
 ```
 -go inside the `src` folder and execute the following command:
 
