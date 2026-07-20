@@ -59,7 +59,7 @@ this.belongsTo(models.Airport, {
     boardingGate: {
       type: DataTypes.STRING
     },
-    totalSeats: {
+    totalSeats: {            // total remaining seats 
       type: DataTypes.INTEGER,
       allowNull: false
     }
