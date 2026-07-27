@@ -28,7 +28,7 @@ module.exports = {
           key: 'id'
         },
 
-        onDelete: 'CASCADE'
+         onDelete: 'CASCADE'
       },
       type: {
         type: Sequelize.ENUM,
