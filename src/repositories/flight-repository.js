@@ -5,6 +5,8 @@ const { flights, Airplane, Airport, City } = require("../models");
 const db = require("../models");
 
 const { addRowLockOnFlights } = require("./queries");
+
+
 class flightRepository extends crudRepository {
   constructor() {
     super(flights);
@@ -65,6 +67,7 @@ class flightRepository extends crudRepository {
   async updateRemainingSeats(flightId, seats, dec = true) {
 
     await db.sequelize.query(addRowLockOnFlights(flightId));        // raw query to put a row lock 
+
 
 
     const flight = await flights.findByPk(flightId);
