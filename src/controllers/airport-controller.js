@@ -28,6 +28,7 @@ async function createAirport(req, res) {
 
 async function getAirports(req, res) {
   try {
+    console.log("req recieved");
     const airports = await airportService.getAirports();
     successResponse.data = airports;
     return res
@@ -41,20 +42,7 @@ async function getAirports(req, res) {
   }
 }
 
-async function getAirports(req, res) {
-  try {
-    const airports = await airportService.getAirports();
-    successResponse.data = airports;
-    return res
-      .status(StatusCodes.OK)
-      .json(successResponse);
-  } catch (error) {
-    errorResponse.error = error;
-    return res
-    .status(error.statusCode)
-    .json(errorResponse);
-}
-}
+
 
 
 async function getAirport(req, res) {

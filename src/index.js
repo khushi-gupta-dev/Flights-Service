@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended:true}));
 app.use("/api", apiRoutes);
 
 
-const { City , Airport } = require("./models");
+// app.use("/flightsService/api", apiRoutes);
 
 // console.log(process.env);
 app.listen(serverConfig.PORT, () => {
