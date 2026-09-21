@@ -19,7 +19,7 @@ module.exports = {
         {
           row: 1,
           col: "A",
-          airplaneId: 1,
+          airplaneId: 5,
 
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -27,7 +27,7 @@ module.exports = {
         {
           row: 1,
           col: "B",
-          airplaneId: 1,
+          airplaneId: 5,
 
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -35,7 +35,7 @@ module.exports = {
          {
         row: 1,
         col: 'C',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -43,7 +43,7 @@ module.exports = {
           {
         row: 1,
         col: 'D',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -51,7 +51,7 @@ module.exports = {
            {
         row: 1,
         col: 'E',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -59,7 +59,7 @@ module.exports = {
        {
         row: 1,
         col: 'F',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -68,7 +68,7 @@ module.exports = {
        {
           row: 2,
           col: "A",
-          airplaneId: 1,
+          airplaneId: 5,
 
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -76,7 +76,7 @@ module.exports = {
         {
           row: 2,
           col: "B",
-          airplaneId: 1,
+          airplaneId: 5,
 
           createdAt: new Date(),
           updatedAt: new Date(),
@@ -84,7 +84,7 @@ module.exports = {
          {
         row: 2,
         col: 'C',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -92,7 +92,7 @@ module.exports = {
           {
         row: 2,
         col: 'D',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -100,7 +100,7 @@ module.exports = {
            {
         row: 2,
         col: 'E',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -108,7 +108,7 @@ module.exports = {
        {
         row: 2,
         col: 'F',
-        airplaneId: 1,
+        airplaneId: 5,
        
         createdAt: new Date(),
         updatedAt: new Date(),
