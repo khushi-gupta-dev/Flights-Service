@@ -3,6 +3,7 @@ const { cityController } = require("../../controllers");
 const { cityMiddlewares } = require("../../middlewares");
 const router = express.Router();
 
+router.get("/", cityController.getCities);
 
 //    /api/v1/cities     POST
 router.post(

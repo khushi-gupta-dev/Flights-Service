@@ -1,13 +1,21 @@
 const { StatusCodes } = require("http-status-codes");
-const { flightRepository } = require("../repositories");
+const { flightRepository, airplaneRepository } = require("../repositories");
 const AppError = require("../utils/errors/app-error");
 const compare = require("../utils/helpers/datetime-helper");
 
 const {Op} = require("sequelize");
 const flightRepo = new flightRepository();
+const airplaneRepo = new airplaneRepository();
 
 async function createFlight(data) {
   try {
+    const airplane = await airplaneRepo.get(data.airplaneId);
+    if (Number(data.totalSeats) > Number(airplane.capacity)) {
+      throw new AppError(
+        `Available seats cannot exceed the selected aircraft's capacity of ${airplane.capacity}.`,
+        StatusCodes.BAD_REQUEST,
+      );
+    }
     if (compare.compareTime(data.departureTime, data.arrivalTime)) {
       throw new AppError(
         "Departure time must be less than arrival time",
@@ -18,15 +26,15 @@ async function createFlight(data) {
     return flight;
   } catch (error) {
     if (error instanceof AppError) {
+      if (error.statusCode === StatusCodes.NOT_FOUND) {
+        throw new AppError("Choose an existing aircraft.", StatusCodes.BAD_REQUEST);
+      }
       throw error;
     }
 
-    if (error.name == "SequelizeValidationError") {
-      let explanation = [];
-      error.errors.forEach((err) => {
-        explanation.push(err.message);
-      });
-
+    if (["SequelizeValidationError", "SequelizeUniqueConstraintError", "SequelizeForeignKeyConstraintError"].includes(error.name)) {
+      const explanation = error.errors?.map((err) => err.message) || ["Check the flight details and selected airport and aircraft IDs."];
+      if (error.name === "SequelizeForeignKeyConstraintError") explanation.push("Choose an existing aircraft and airports.");
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
 

@@ -4,6 +4,25 @@ const { cityService } = require("../services");
 
 const { successResponse, errorResponse } = require("../utils/common");
 
+async function getCities(req, res) {
+  try {
+    const cities = await cityService.getCities();
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: "Successfully completed the request",
+      data: cities,
+      error: {},
+    });
+  } catch (error) {
+    return res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({
+      success: false,
+      message: error.message || "Could not fetch cities",
+      data: [],
+      error: { message: error.message || "Could not fetch cities" },
+    });
+  }
+}
+
 
 // POST: /cities
 // req-body {
@@ -63,6 +82,7 @@ async function updateCity(req, res) {
 }
 
 module.exports = { 
+    getCities,
     createCity,
     destroyCity,
     updateCity

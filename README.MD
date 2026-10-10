@@ -289,6 +289,7 @@ PORT=3000
 
 | Method | Endpoint | Description | Request Body Example |
 |---|---|---|---|
+| `GET` | `/api/v1/cities` | List cities for airport selection | None |
 | `POST` | `/api/v1/cities` | Create city | `{"name": "Bengaluru"}` |
 | `PATCH` | `/api/v1/cities/:id` | Update city name | `{"name": "Bangalore"}` |
 | `DELETE` | `/api/v1/cities/:id` | Delete city | None |

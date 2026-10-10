@@ -8,12 +8,9 @@ async function createAirport(data) {
     const airport = await airportRepo.create(data);
     return airport;
   } catch (error) {
-    if (error.name == "SequelizeValidationError") {
-      let explanation = [];
-      error.errors.forEach((err) => {
-        explanation.push(err.message);
-      });
-
+    if (["SequelizeValidationError", "SequelizeUniqueConstraintError", "SequelizeForeignKeyConstraintError"].includes(error.name)) {
+      const explanation = error.errors?.map((err) => err.message) || [];
+      if (error.name === "SequelizeForeignKeyConstraintError") explanation.push("Select an existing city.");
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
 

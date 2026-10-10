@@ -8,12 +8,8 @@ async function createAirplane(data) {
     const airplane = await airplaneRepo.create(data);
     return airplane;
   } catch (error) {
-    if (error.name == "SequelizeValidationError") {
-      let explanation = [];
-      error.errors.forEach((err) => {
-        explanation.push(err.message);
-      });
-
+    if (["SequelizeValidationError", "SequelizeUniqueConstraintError"].includes(error.name)) {
+      const explanation = error.errors?.map((err) => err.message) || ["Check the aircraft model and capacity."];
       throw new AppError(explanation, StatusCodes.BAD_REQUEST);
     }
 

@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,                 
       allowNull: false,
       validate: {
-        isAlphanumeric: true,
+        is: /^[a-z0-9]+(?: [a-z0-9]+)*$/i,
       }
     },
     capacity: {

@@ -3,6 +3,13 @@ const { cityRepository } = require("../repositories");
 const AppError = require("../utils/errors/app-error");
 const cityRepo = new cityRepository();
 
+async function getCities() {
+  try {
+    return await cityRepo.getAll();
+  } catch (error) {
+    throw new AppError("Cannot fetch cities", StatusCodes.INTERNAL_SERVER_ERROR);
+  }
+}
 
 async function createCity(data) { 
      try {
@@ -69,6 +76,7 @@ async function updateCity(id, data) {
 }
 
 module.exports = {
+  getCities,
   createCity,
   destroyCity,
   updateCity
