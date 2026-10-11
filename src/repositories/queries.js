@@ -1,5 +1,5 @@
-function addRowLockOnFlights(flightId) {
-    return `SELECT * FROM flights WHERE id = ${flightId} FOR UPDATE`;
+function addRowLockOnFlights() {
+    return "SELECT id FROM flights WHERE id = :flightId FOR UPDATE";
 }
 
 
