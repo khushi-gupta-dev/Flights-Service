@@ -13,7 +13,9 @@ app.use(express.urlencoded({extended:true}));
 
 app.use("/api", apiRoutes);
 
-
+app.get("/", (req, res) => {
+    res.send("Welcome to Flight Service");
+} );                            
 // app.use("/flightsService/api", apiRoutes);
 
 // console.log(process.env);

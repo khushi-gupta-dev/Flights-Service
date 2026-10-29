@@ -1,15 +1,16 @@
-﻿# Flights Service
+# Flights Service
 
-Owns cities, airports, aircraft, flights, search, and remaining-seat inventory. Express routes are mounted under `/api/v1` and exposed by the gateway under `/flightsService`.
+Flights Service (default port `3000`) owns cities, airports, aircraft, flights, search, and remaining-seat inventory. Gateway paths use the `/flightsService` prefix; service routes are mounted at `/api/v1`.
 
 ## Routes
 
-- `GET /api/v1/cities`, `POST /api/v1/cities`; city update/delete use `PATCH|DELETE /:id`.
-- `/api/v1/airports` and `/api/v1/airplanes`: GET/POST collection; GET/PATCH/DELETE by ID.
-- `GET /api/v1/flights` supports `trips`, `price`, `travellers`, `tripDate`, and `sort`; `GET /:id`, `POST /`, and `PATCH /:id/seats`.
+- Cities: `GET|POST /api/v1/cities`, `PATCH|DELETE /api/v1/cities/:id`.
+- Airports and airplanes: `GET|POST /api/v1/{airports|airplanes}`, `GET|PATCH|DELETE /api/v1/{airports|airplanes}/:id`.
+- Flights: `GET|POST /api/v1/flights`, `GET /api/v1/flights/:id`, `PATCH /api/v1/flights/:id/seats`.
+- Search parameters: `trips` (`AAA-BBB`), `price` (`min-max`, or minimum only), `travellers`, `tripDate` (`YYYY-MM-DD`), and `sort` (for example `price_ASC,departureTime_DESC`). The frontend hides departures at or before the current time.
 
-The gateway leaves catalog reads public and requires an admin token for writes. Seat adjustments use a transactional row lock; `totalSeats` represents remaining seats.
+The gateway allows catalogue reads and restricts mutations to admins. `flights.totalSeats` stores remaining seats. Seat adjustments use a row lock in a database transaction; decrements reject requests exceeding current inventory.
 
 ## Run
 
-Configure `PORT` and the development database in `src/config/config.json`, apply migrations with Sequelize CLI, then `npm run dev` (default port 3000).
+Configure `PORT` and the development database in `src/config/config.json`, apply Sequelize migrations, and run `npm run dev`.
