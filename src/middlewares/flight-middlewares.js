@@ -94,6 +94,17 @@ function validateUpdateSeatsRequest(req, res, next) {
         .json(errorResponse);
   }
 
+  if (req.body.operationId !== undefined && (typeof req.body.operationId !== 'string' || !/^[a-zA-Z0-9._:-]{8,160}$/.test(req.body.operationId))) {
+    errorResponse.message = "Something went wrong while updating seats";
+    errorResponse.error = new AppError(["Seat operation ID must be 8 to 160 safe characters"], StatusCodes.BAD_REQUEST);
+    return res.status(StatusCodes.BAD_REQUEST).json(errorResponse);
+  }
+  if (req.body.compensatesOperationId !== undefined && (typeof req.body.compensatesOperationId !== 'string' || !/^[a-zA-Z0-9._:-]{8,160}$/.test(req.body.compensatesOperationId))) {
+    errorResponse.message = "Something went wrong while updating seats";
+    errorResponse.error = new AppError(["Compensated seat operation ID must be 8 to 160 safe characters"], StatusCodes.BAD_REQUEST);
+    return res.status(StatusCodes.BAD_REQUEST).json(errorResponse);
+  }
+
   next();
 }
 

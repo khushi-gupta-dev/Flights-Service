@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 
 const crudRepository = require("./crud-repository");
-const { flights, Airplane, Airport, City } = require("../models");
+const { flights, Airplane, Airport, City, SeatAdjustment } = require("../models");
 const db = require("../models");
 const AppError = require("../utils/errors/app-error");
 
@@ -65,7 +65,7 @@ class flightRepository extends crudRepository {
     return response;
   }
 
-  async updateRemainingSeats(flightId, seats, dec = true) {
+  async updateRemainingSeats(flightId, seats, dec = true, operationId, compensatesOperationId) {
     const transaction = await db.sequelize.transaction();
     try {
       await db.sequelize.query(addRowLockOnFlights(), {
@@ -80,15 +80,43 @@ class flightRepository extends crudRepository {
       if (!Number.isInteger(Number(seats)) || Number(seats) < 1) {
         throw new AppError("Seats must be a positive whole number", 400);
       }
-      if (dec !== false && dec !== 0 && Number(seats) > flight.totalSeats) {
+      const decrement = dec !== false && dec !== 0;
+      if (operationId) {
+        const prior = await SeatAdjustment.findOne({ where: { operationId }, transaction });
+        if (prior) {
+          if (Number(prior.flightId) !== Number(flightId) || Number(prior.seats) !== Number(seats) || prior.decrement !== decrement || prior.compensatesOperationId !== (compensatesOperationId || null)) {
+            throw new AppError("This seat operation ID was already used for a different adjustment", 409);
+          }
+          await transaction.commit();
+          return flight;
+        }
+      }
+      let applied = true;
+      if (decrement && compensatesOperationId) {
+        const releaseIntent = await SeatAdjustment.findOne({
+          where: { compensatesOperationId, decrement: false },
+          transaction,
+        });
+        if (releaseIntent) applied = false;
+      }
+      if (!decrement && compensatesOperationId) {
+        const hold = await SeatAdjustment.findOne({ where: { operationId: compensatesOperationId, decrement: true }, transaction });
+        if (!hold?.applied) applied = false;
+      }
+      if (decrement && applied && Number(seats) > flight.totalSeats) {
         throw new AppError("Not enough seats available", 409);
       }
 
-      const adjustment = { by: Number(seats), transaction };
-      if (dec !== false && dec !== 0) {
-        await flight.decrement("totalSeats", adjustment);
-      } else {
-        await flight.increment("totalSeats", adjustment);
+      if (applied) {
+        const adjustment = { by: Number(seats), transaction };
+        if (decrement) {
+          await flight.decrement("totalSeats", adjustment);
+        } else {
+          await flight.increment("totalSeats", adjustment);
+        }
+      }
+      if (operationId) {
+        await SeatAdjustment.create({ operationId, flightId, seats: Number(seats), decrement, compensatesOperationId: compensatesOperationId || null, applied }, { transaction });
       }
       await transaction.commit();
       return flight;

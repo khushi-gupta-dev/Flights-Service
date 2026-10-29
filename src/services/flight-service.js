@@ -136,7 +136,7 @@ async function getFlight(id) {
 
 async function updateSeats(data) {
   try {
-    const response = await flightRepo.updateRemainingSeats(data.flightId, data.seats, data.dec);
+    const response = await flightRepo.updateRemainingSeats(data.flightId, data.seats, data.dec, data.operationId, data.compensatesOperationId);
     return response;
   } catch (error) {
     if (error instanceof AppError) throw error;
