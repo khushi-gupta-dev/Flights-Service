@@ -25,6 +25,11 @@ this.belongsTo(models.Airport, {
         as: 'airplaneDetail',
     
       });
+
+      this.hasMany(models.FlightDisruption, {
+        foreignKey: 'flightId',
+        as: 'disruptions',
+      });
       
       // define association here
     }
